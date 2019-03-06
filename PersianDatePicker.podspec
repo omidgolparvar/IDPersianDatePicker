@@ -17,7 +17,7 @@ Pod::Spec.new do |s|
   s.pod_target_xcconfig   = { 'SWIFT_VERSION' => '4.2' }
 
   s.source_files = [
-    'PersianDatePicker/Source/**/*.swift',
+    'PersianDatePicker/Source/**/*.{h,swift}',
     'PersianDatePicker/Source/**/*.xib',
   ]
   s.resources = [
