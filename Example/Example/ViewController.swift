@@ -13,6 +13,28 @@ class ViewController: UIViewController {
 	
 	@IBOutlet weak var button_PresentDatePicker	: UIButton!
 	
+	private let minimumDate: Date = {
+		let date = Calendar.current.date(byAdding: .day, value: -10, to: Date())!
+		let dateFormatter = DateFormatter()
+		dateFormatter.calendar = Calendar(identifier: .persian)
+		dateFormatter.locale = Locale(identifier: "en-us")
+		dateFormatter.dateFormat = "yyyy/MM/dd EEEE"
+		print("Min: " + dateFormatter.string(from: date))
+		
+		return date
+	}()
+	
+	private let maximumDate: Date = {
+		let date = Calendar.current.date(byAdding: .day, value: 20, to: Date())!
+		let dateFormatter = DateFormatter()
+		dateFormatter.calendar = Calendar(identifier: .persian)
+		dateFormatter.locale = Locale(identifier: "en-us")
+		dateFormatter.dateFormat = "yyyy/MM/dd EEEE"
+		print("Max: " + dateFormatter.string(from: date))
+		
+		return date
+	}()
+	
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		button_PresentDatePicker.layer.cornerRadius = 12.0
@@ -40,25 +62,11 @@ extension ViewController: PersianDatePickerDelegate {
 	}
 	
 	var persianDatePicker_MinimumDate: Date {
-		let date = Calendar.current.date(byAdding: .day, value: -1000, to: Date())!
-		let dateFormatter = DateFormatter()
-		dateFormatter.calendar = Calendar(identifier: .persian)
-		dateFormatter.locale = Locale(identifier: "en-us")
-		dateFormatter.dateFormat = "yyyy/MM/dd EEEE"
-		print("Min: " + dateFormatter.string(from: date))
-		
-		return date
+		return minimumDate
 	}
 	
 	var persianDatePicker_MaximumDate: Date {
-		let date = Calendar.current.date(byAdding: .day, value: -990, to: Date())!
-		let dateFormatter = DateFormatter()
-		dateFormatter.calendar = Calendar(identifier: .persian)
-		dateFormatter.locale = Locale(identifier: "en-us")
-		dateFormatter.dateFormat = "yyyy/MM/dd EEEE"
-		print("Max: " + dateFormatter.string(from: date))
-		
-		return date
+		return maximumDate
 	}
 	
 	func persianDatePicker_DidSelectDates(_ dates: [Date]) {
@@ -67,6 +75,7 @@ extension ViewController: PersianDatePickerDelegate {
 		dateFormatter.locale = Locale(identifier: "en-us")
 		dateFormatter.dateFormat = "yyyy/MM/dd"
 		
+		print("Selected Dates:")
 		dates.forEach {
 			print(dateFormatter.string(from: $0))
 		}

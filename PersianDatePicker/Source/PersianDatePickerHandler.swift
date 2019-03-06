@@ -23,41 +23,59 @@ internal final class PersianDatePickerHandler {
 	private var currentMonth		: Int!
 	internal var currentPageDays	: [PresentingDay]!
 	
-	internal var areMinimumAndMaximumDatesInSameYear: Bool {
-		let persianCalendar = Calendar.Persian
-		let year_MinimumDate = persianCalendar.component(.year, from: delegate!.persianDatePicker_MinimumDate)
-		let year_MaximumDate = persianCalendar.component(.year, from: delegate!.persianDatePicker_MaximumDate)
-		return year_MinimumDate == year_MaximumDate
-	}
-	
-	internal var areMinimumAndMaximumDatesInSameYearAndMonth: Bool {
-		let persianCalendar = Calendar.Persian
-		let month_MinimumDate = persianCalendar.component(.month, from: delegate!.persianDatePicker_MinimumDate)
-		let month_MaximumDate = persianCalendar.component(.month, from: delegate!.persianDatePicker_MaximumDate)
-		return self.areMinimumAndMaximumDatesInSameYear && (month_MinimumDate == month_MaximumDate)
-	}
-	
 	internal var selectedDates_Array: [Date] {
 		return Array(selectedDates_Set).sorted()
 	}
 	
-	internal var currentYear_String: String {
+	internal var currentYearAndMonth_String: String {
 		var dateComponents = DateComponents()
 		dateComponents.year = currentYear
+		dateComponents.month = currentMonth
 		let date = Calendar.Persian.date(from: dateComponents)!
-		dateFormatter.dateFormat = "yyyy"
+		dateFormatter.dateFormat = "MMMM  /  yyyy"
 		let string = dateFormatter.string(from: date)
 		return string
 	}
 	
-	internal var currentMonth_String: String {
-		var dateComponents = DateComponents()
-		dateComponents.month = currentMonth
-		let date = Calendar.Persian.date(from: dateComponents)!
-		dateFormatter.dateFormat = "MMMM"
-		let string = dateFormatter.string(from: date)
-		return string
+	internal var canGoToNextMonth: Bool {
+		var nextYearMonth: (year: Int, month: Int)
+		if currentMonth == 12 {
+			nextYearMonth = (currentYear + 1, 1)
+		} else {
+			nextYearMonth = (currentYear, currentMonth + 1)
+		}
+		let maximumDate = delegate.persianDatePicker_MaximumDate
+		let maximumDateYearMonth: (year: Int, month: Int) = (
+			Calendar.Persian.component(.year, from: maximumDate),
+			Calendar.Persian.component(.month, from: maximumDate)
+		)
+		
+		if nextYearMonth.year < maximumDateYearMonth.year { return true }
+		if nextYearMonth.year > maximumDateYearMonth.year { return false }
+		
+		return nextYearMonth.month <= maximumDateYearMonth.month
 	}
+	
+	internal var canGoToPreviousMonth: Bool {
+		var previousYearMonth: (year: Int, month: Int)
+		if currentMonth == 1 {
+			previousYearMonth = (currentYear - 1, 12)
+		} else {
+			previousYearMonth = (currentYear, currentMonth - 1)
+		}
+		
+		let minimumDate = delegate.persianDatePicker_MinimumDate
+		let minimumDateYearMonth: (year: Int, month: Int) = (
+			Calendar.Persian.component(.year, from: minimumDate),
+			Calendar.Persian.component(.month, from: minimumDate)
+		)
+		
+		if previousYearMonth.year < minimumDateYearMonth.year { return false }
+		if previousYearMonth.year > minimumDateYearMonth.year { return true }
+		
+		return previousYearMonth.month >= minimumDateYearMonth.month
+	}
+	
 	
 	internal init(delegate: PersianDatePickerDelegate) {
 		self.delegate			= delegate
@@ -125,21 +143,26 @@ internal final class PersianDatePickerHandler {
 		}
 	}
 	
-	
 	internal func gotoNextMonth() {
+		if currentMonth == 12 {
+			currentYear += 1
+			currentMonth = 1
+		} else {
+			currentMonth += 1
+		}
 		
+		generateDays()
 	}
 	
 	internal func gotoPreviousMonth() {
+		if currentMonth == 1 {
+			currentYear -= 1
+			currentMonth = 12
+		} else {
+			currentMonth -= 1
+		}
 		
-	}
-	
-	internal func gotoNextYear() {
-		
-	}
-	
-	internal func gotoPreviousYear() {
-		
+		generateDays()
 	}
 	
 	enum PresentingDay {

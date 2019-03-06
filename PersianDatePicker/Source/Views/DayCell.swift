@@ -73,12 +73,14 @@ class DayCell: UICollectionViewCell {
 			view_ContentHolder.backgroundColor = .white
 			label_DateNumber.text = DayCell.CellDateFormatter.string(from: date)
 			label_DateNumber.textColor = .lightGray
+			label_DateNumber.isHidden = false
 		case .enableDate(let date, let isSelected):
 			let sharedDelegate = PersianDatePickerController.SharedDelegate!
 			self.isUserInteractionEnabled = true
 			view_ContentHolder.backgroundColor = isSelected ? sharedDelegate.persianDatePicker_SelectedDateColor : .white
 			label_DateNumber.text = DayCell.CellDateFormatter.string(from: date)
 			label_DateNumber.textColor = isSelected ? .white : .black
+			label_DateNumber.isHidden = false
 		}
 	}
 	

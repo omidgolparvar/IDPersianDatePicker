@@ -17,13 +17,8 @@ public class PersianDatePickerController: UIViewController {
 	@IBOutlet weak var view_TitleAndMessageHolder	: UIView!
 	@IBOutlet weak var label_TitleAndMessage		: UILabel!
 	
-	@IBOutlet weak var view_YearChangerHolder		: UIView!
-	@IBOutlet weak var label_Year					: UILabel!
-	@IBOutlet weak var button_PreviousYear			: UIButton!
-	@IBOutlet weak var button_NextYear				: UIButton!
-	
 	@IBOutlet weak var view_MonthChangerHolder		: UIView!
-	@IBOutlet weak var label_Month					: UILabel!
+	@IBOutlet weak var label_YearAndMonth			: UILabel!
 	@IBOutlet weak var button_PreviousMonth			: UIButton!
 	@IBOutlet weak var button_NextMonth				: UIButton!
 	
@@ -33,9 +28,8 @@ public class PersianDatePickerController: UIViewController {
 	
 	@IBOutlet weak var button_Select				: UIButton!
 	
-	
-	internal weak var delegate		: PersianDatePickerDelegate!
-	private var handler				: PersianDatePickerHandler!
+	internal weak var delegate	: PersianDatePickerDelegate!
+	private var handler			: PersianDatePickerHandler!
 	
 	public override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,20 +37,16 @@ public class PersianDatePickerController: UIViewController {
 		setupHandler()
     }
 	
-	@IBAction func action_Button_NextYear() {
-		
-	}
-	
-	@IBAction func action_Button_PreviousYear() {
-		
-	}
-	
 	@IBAction func action_Button_NextMonth() {
-		
+		guard handler.canGoToNextMonth else { return }
+		handler.gotoNextMonth()
+		setupViews_ForNewCalendarPage()
 	}
 	
 	@IBAction func action_Button_PreviousMonth() {
-		
+		guard handler.canGoToPreviousMonth else { return }
+		handler.gotoPreviousMonth()
+		setupViews_ForNewCalendarPage()
 	}
 	
 	@IBAction func action_Button_SelectAndDismiss() {
@@ -125,8 +115,6 @@ internal extension PersianDatePickerController {
 		self.view.backgroundColor = .clear
 		view_ContentHolder.layer.cornerRadius = 12.0
 		
-		button_NextYear.layer.cornerRadius = button_NextYear.frame.height / 2.0
-		button_PreviousYear.layer.cornerRadius = button_PreviousYear.frame.height / 2.0
 		button_NextMonth.layer.cornerRadius = button_NextMonth.frame.height / 2.0
 		button_PreviousMonth.layer.cornerRadius = button_PreviousMonth.frame.height / 2.0
 		
@@ -136,8 +124,7 @@ internal extension PersianDatePickerController {
 		button_Select.isEnabled = false
 		button_Select.titleLabel?.font = delegate.persianDatePicker_BaseFont.withSize(18).boldVersion ?? UIFont.systemFont(ofSize: 18, weight: .bold)
 		
-		label_Year.font = delegate.persianDatePicker_BaseFont.withSize(14)
-		label_Month.font = delegate.persianDatePicker_BaseFont.withSize(14)
+		label_YearAndMonth.font = delegate.persianDatePicker_BaseFont.withSize(14)
 		
 		stackView_WeekdayIdentifiers.arrangedSubviews
 			.compactMap { $0 as? UILabel }
@@ -181,19 +168,22 @@ internal extension PersianDatePickerController {
 		collectionView_Days.allowsMultipleSelection = true
 	}
 	
-	private func setupViews_BasedOnHandler() {
-		label_Year.text = handler.currentYear_String
-		label_Month.text = handler.currentMonth_String
-		if handler.areMinimumAndMaximumDatesInSameYear {
-			button_NextYear.isEnabled = false
-			button_PreviousYear.isEnabled = false
+	private func setupViews_BasedOnHandler(isAnimated: Bool = false) {
+		if isAnimated {
+			UIView.transition(with: label_YearAndMonth, duration: 0.2, options: [.transitionFlipFromTop], animations: {
+				self.label_YearAndMonth.text = self.handler.currentYearAndMonth_String
+			}, completion: nil)
+		} else {
+			label_YearAndMonth.text = handler.currentYearAndMonth_String
 		}
-		if handler.areMinimumAndMaximumDatesInSameYearAndMonth {
-			button_NextMonth.isEnabled = false
-			button_PreviousMonth.isEnabled = false
-		}
+		button_NextMonth.isEnabled = handler.canGoToNextMonth
+		button_PreviousMonth.isEnabled = handler.canGoToPreviousMonth
 	}
 	
+	private func setupViews_ForNewCalendarPage() {
+		setupViews_BasedOnHandler(isAnimated: true)
+		collectionView_Days.reloadData()
+	}
 	private func setupHandler() {
 		self.handler = PersianDatePickerHandler(delegate: delegate)
 		setupViews_BasedOnHandler()
