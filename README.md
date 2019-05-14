@@ -61,8 +61,8 @@ import IDPersianDatePicker
     <li>مشخصه <code>persianDatePicker_Message</code> از نوع <code dir='ltr' style='color: #3498DB;'>String?</code>
     <p>این مشخصه پیام دلخواه شما (که زیر عنوان قرار می‌گیره) رو مشخص می‌کنه؛ و البته اجباری نیست.</p><br>
     </li>
-    <li>مشخصه <code>persianDatePicker_SelectedDateColor</code> از نوع <code dir='ltr' style='color: #3498DB;'>UIColor</code>
-    <p>این مشخصه رنگ مورد نظر شما برای روزهای انتخاب‌شده رو مشخص می‌کنه.</p><br>
+    <li>مشخصه <code>persianDatePicker_SelectedDateColors</code> از نوع <code dir='ltr' style='color: #3498DB;'>(text: UIColor, background: UIColor)</code>
+    <p>این مشخصه رنگ مورد نظر شما برای روزهای انتخاب‌شده رو مشخص می‌کنه. در واقع اولی رنگ متن و دومی رنگ پس‌زمینه رو مشخص می‌کنه.</p><br>
     </li>
     <li>مشخصه <code>persianDatePicker_CanSelectMultipleDates</code> از نوع <code dir='ltr' style='color: #3498DB;'>Bool</code>
     <p> با استفاده از این مشخصه می‌تونین فعال‌بودن قابلیت انتخاب چندین روز رو مشخص کنین.</p><br>

@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name                  = 'IDPersianDatePicker'
-  s.version               = '1.0.0'
+  s.version               = '1.0.1'
   s.summary               = 'Framework for selecting date in Persian Calendar written Swift.'
   s.description           = <<-DESC
 			    Framework for selecting date in Persian Calendar.
