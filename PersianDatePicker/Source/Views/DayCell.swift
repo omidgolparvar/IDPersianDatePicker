@@ -38,7 +38,7 @@ class DayCell: UICollectionViewCell {
 				if newValue {
 					self?.view_ContentHolder.backgroundColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
 				} else if isSelected {
-					self?.view_ContentHolder.backgroundColor = PersianDatePickerController.SharedDelegate!.persianDatePicker_SelectedDateColor
+					self?.view_ContentHolder.backgroundColor = PersianDatePickerController.SharedDelegate!.persianDatePicker_SelectedDateColors.background
 				} else {
 					self?.view_ContentHolder.backgroundColor = .white
 				}
@@ -55,8 +55,11 @@ class DayCell: UICollectionViewCell {
 		
 		set {
 			self.view_ContentHolder.backgroundColor = newValue ?
-				PersianDatePickerController.SharedDelegate!.persianDatePicker_SelectedDateColor :
+				PersianDatePickerController.SharedDelegate!.persianDatePicker_SelectedDateColors.background :
 				.white
+			self.label_DateNumber.textColor = newValue ?
+				PersianDatePickerController.SharedDelegate!.persianDatePicker_SelectedDateColors.text :
+				.black
 			
 			super.isSelected = newValue
 		}
@@ -77,9 +80,9 @@ class DayCell: UICollectionViewCell {
 		case .enableDate(let date, let isSelected):
 			let sharedDelegate = PersianDatePickerController.SharedDelegate!
 			self.isUserInteractionEnabled = true
-			view_ContentHolder.backgroundColor = isSelected ? sharedDelegate.persianDatePicker_SelectedDateColor : .white
+			view_ContentHolder.backgroundColor = isSelected ? sharedDelegate.persianDatePicker_SelectedDateColors.background : .white
 			label_DateNumber.text = DayCell.CellDateFormatter.string(from: date)
-			label_DateNumber.textColor = isSelected ? .white : .black
+			label_DateNumber.textColor = isSelected ? sharedDelegate.persianDatePicker_SelectedDateColors.text : .black
 			label_DateNumber.isHidden = false
 		}
 	}

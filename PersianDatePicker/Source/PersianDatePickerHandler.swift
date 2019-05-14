@@ -131,12 +131,23 @@ internal final class PersianDatePickerHandler {
 		
 		switch currentPageDays[index] {
 		case .enableDate(let date, let isSelected):
-			if isSelected {
-				currentPageDays[index] = .enableDate(date: date, isSelected: false)
-				selectedDates_Set.remove(date)
+			if delegate.persianDatePicker_CanSelectMultipleDates {
+				if isSelected {
+					currentPageDays[index] = .enableDate(date: date, isSelected: false)
+					selectedDates_Set.remove(date)
+				} else {
+					currentPageDays[index] = .enableDate(date: date, isSelected: true)
+					selectedDates_Set.insert(date)
+				}
 			} else {
-				currentPageDays[index] = .enableDate(date: date, isSelected: true)
-				selectedDates_Set.insert(date)
+				if isSelected {
+					currentPageDays[index] = .enableDate(date: date, isSelected: false)
+					selectedDates_Set.remove(date)
+				} else {
+					currentPageDays[index] = .enableDate(date: date, isSelected: true)
+					selectedDates_Set.removeAll()
+					selectedDates_Set.insert(date)
+				}
 			}
 		default:
 			return

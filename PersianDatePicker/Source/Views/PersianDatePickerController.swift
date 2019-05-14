@@ -138,7 +138,7 @@ internal extension PersianDatePickerController {
 	private func setupViews_Label_TitleAndMessage() {
 		let attributedText_Final = NSMutableAttributedString(string: "")
 		
-		let title = delegate.persianDatePicker_Title
+		let title = delegate.persianDatePicker_Title + (delegate.persianDatePicker_Message == nil ? "" : "\n")
 		let attributedText_Title = NSAttributedString.Init(title,
 			font		: delegate.persianDatePicker_BaseFont.withSize(18).boldVersion ?? UIFont.systemFont(ofSize: 18, weight: .bold),
 			textColor	: .black
@@ -151,7 +151,6 @@ internal extension PersianDatePickerController {
 				textColor	: .darkGray
 			)
 			
-			attributedText_Final.append(NSAttributedString(string: "\n"))
 			attributedText_Final.append(attributedText_Message)
 		}
 		
@@ -165,7 +164,7 @@ internal extension PersianDatePickerController {
 		collectionView_Days.delegate = self
 		collectionView_Days.dataSource = self
 		collectionView_Days.semanticContentAttribute = .forceRightToLeft
-		collectionView_Days.allowsMultipleSelection = true
+		collectionView_Days.allowsMultipleSelection = delegate!.persianDatePicker_CanSelectMultipleDates
 	}
 	
 	private func setupViews_BasedOnHandler(isAnimated: Bool = false) {
