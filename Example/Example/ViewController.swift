@@ -13,27 +13,7 @@ class ViewController: UIViewController {
 	
 	@IBOutlet weak var button_PresentDatePicker	: UIButton!
 	
-	private let minimumDate: Date = {
-		let date = Calendar.current.date(byAdding: .day, value: -10, to: Date())!
-		let dateFormatter = DateFormatter()
-		dateFormatter.calendar = Calendar(identifier: .persian)
-		dateFormatter.locale = Locale(identifier: "en-us")
-		dateFormatter.dateFormat = "yyyy/MM/dd EEEE"
-		print("Min: " + dateFormatter.string(from: date))
-		
-		return date
-	}()
-	
-	private let maximumDate: Date = {
-		let date = Calendar.current.date(byAdding: .day, value: 20, to: Date())!
-		let dateFormatter = DateFormatter()
-		dateFormatter.calendar = Calendar(identifier: .persian)
-		dateFormatter.locale = Locale(identifier: "en-us")
-		dateFormatter.dateFormat = "yyyy/MM/dd EEEE"
-		print("Max: " + dateFormatter.string(from: date))
-		
-		return date
-	}()
+	private var preselectedDates: [Date] = []
 	
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -42,34 +22,44 @@ class ViewController: UIViewController {
 	}
 	
 	@IBAction func actionPresentPersianDatePicker(_ sender: UIButton) {
-		PersianDatePickerController.Present(from: self, delegate: self)
+		let minimumDate = Calendar.current.date(byAdding: .day, value: -10, to: Date())!
+		let maximumDate = Calendar.current.date(byAdding: .day, value: 800, to: Date())!
+		
+		let dateFormatter = DateFormatter()
+		dateFormatter.calendar = Calendar(identifier: .persian)
+		dateFormatter.locale = Locale(identifier: "en-us")
+		dateFormatter.dateFormat = "yyyy/MM/dd EEEE"
+		print("Min: " + dateFormatter.string(from: minimumDate))
+		print("Max: " + dateFormatter.string(from: maximumDate))
+		
+		var config = PersianDatePicker.Configuration(
+			minimumDate	: minimumDate,
+			maximumDate	: maximumDate
+		)
+		config.ui.font = UIFont(name: "Vazir", size: 12)!
+		config.texts.title = "انتخاب نمایید"
+		config.texts.message = "تاریخ(های) مورد نظر خود را انتخاب کنین و بعدش دکمه تایید را بزنین"
+		config.selection.canSelectMultipleDates = true
+		config.selection.preselectedDates = preselectedDates
+		
+		PersianDatePicker.Present(
+			sourceController	: self,
+			configuration		: config,
+			delegate			: self,
+			completion			: nil
+		)
+		PersianDatePicker.Present(sourceController: <#T##UIViewController#>, configuration: <#T##PersianDatePicker.Configuration#>, delegate: <#T##PersianDatePickerDelegate#>, completion: <#T##(() -> Void)?##(() -> Void)?##() -> Void#>)
 	}
 	
 }
 
 extension ViewController: PersianDatePickerDelegate {
 	
-	var persianDatePicker_BaseFont: UIFont {
-		return UIFont(name: "Vazir", size: 12)!
+	func persianDatePicker(canSelectDate date: Date) -> Bool {
+		return Calendar(identifier: .persian).component(.weekday, from: date) != 6
 	}
 	
-	var persianDatePicker_Title: String {
-		return "انتخاب نمایید"
-	}
-	
-	var persianDatePicker_Message: String? {
-		return "تاریخ تولد خود را انتخاب کنین و بعدش دکمه تایید را بزنین"
-	}
-	
-	var persianDatePicker_MinimumDate: Date {
-		return minimumDate
-	}
-	
-	var persianDatePicker_MaximumDate: Date {
-		return maximumDate
-	}
-	
-	func persianDatePicker_DidSelectDates(_ dates: [Date]) {
+	func persianDatePicker(didSelectDates dates: [Date]) {
 		let dateFormatter = DateFormatter()
 		dateFormatter.calendar = Calendar(identifier: .persian)
 		dateFormatter.locale = Locale(identifier: "en-us")
@@ -79,11 +69,8 @@ extension ViewController: PersianDatePickerDelegate {
 		dates.forEach {
 			print(dateFormatter.string(from: $0))
 		}
-	}
-	
-	func persianDatePicker_CanSelectDate(_ date: Date) -> Bool {
-		let weekday = Calendar(identifier: .persian).component(.weekday, from: date)
-		return weekday != 6
+		
+		preselectedDates = dates
 	}
 	
 }

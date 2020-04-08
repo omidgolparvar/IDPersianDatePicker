@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="lVs-62-dOj">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="lVs-62-dOj">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -40,15 +40,15 @@
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="انتخاب‌کننده تاریخ پارسی" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XhO-of-HRT">
-                                <rect key="frame" x="24" y="411.5" width="327" height="37.5"/>
-                                <fontDescription key="fontDescription" name="Vazir-Bold" family="Vazir" pointSize="24"/>
+                                <rect key="frame" x="24" y="361.5" width="327" height="41"/>
+                                <fontDescription key="fontDescription" name="Vazir-Bold" family="Vazir" pointSize="26"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="right" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FgR-Iw-0no">
-                                <rect key="frame" x="24" y="461" width="327" height="66"/>
+                                <rect key="frame" x="24" y="414.5" width="327" height="112.5"/>
                                 <string key="text">با استفاده از این کتابخونه می‌تونین به زیبایی هرچه تمام، تاریخ(های) پارسی انتخاب کنین. 
 بله، می‌دونم خود iOS داره، ولی به این خوبی نیست!! 😅</string>
-                                <fontDescription key="fontDescription" name="Vazir" family="Vazir" pointSize="14"/>
+                                <fontDescription key="fontDescription" name="Vazir" family="Vazir" pointSize="18"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
