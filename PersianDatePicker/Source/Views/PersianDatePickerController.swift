@@ -8,60 +8,78 @@
 
 import UIKit
 
-public class PersianDatePickerController: UIViewController {
-	
-	internal static weak var SharedDelegate: PersianDatePickerDelegate? = nil
+class PersianDatePickerController: UIViewController {
 	
 	@IBOutlet weak var view_ContentHolder			: UIView!
-	
 	@IBOutlet weak var view_TitleAndMessageHolder	: UIView!
 	@IBOutlet weak var label_TitleAndMessage		: UILabel!
-	
 	@IBOutlet weak var view_MonthChangerHolder		: UIView!
-	@IBOutlet weak var label_YearAndMonth			: UILabel!
+	@IBOutlet weak var button_YearAndMonth			: UIButton!
 	@IBOutlet weak var button_PreviousMonth			: UIButton!
 	@IBOutlet weak var button_NextMonth				: UIButton!
-	
+	@IBOutlet weak var button_PreviousYear			: UIButton!
+	@IBOutlet weak var button_NextYear				: UIButton!
 	@IBOutlet weak var stackView_WeekdayIdentifiers	: UIStackView!
-	
 	@IBOutlet weak var collectionView_Days			: UICollectionView!
-	
 	@IBOutlet weak var button_Select				: UIButton!
 	
-	internal weak var delegate	: PersianDatePickerDelegate!
-	private var handler			: PersianDatePickerHandler!
+	private var configuration	: PersianDatePicker.Configuration!
+	private weak var delegate	: PersianDatePickerDelegate?
+	private var manager			: PersianDatePicker.Manager!
 	
-	public override func viewDidLoad() {
-        super.viewDidLoad()
-		setupViews()
-		setupHandler()
-    }
-	
-	@IBAction func action_Button_NextMonth() {
-		guard handler.canGoToNextMonth else { return }
-		handler.gotoNextMonth()
-		setupViews_ForNewCalendarPage()
+	convenience init(configuration: PersianDatePicker.Configuration, delegate: PersianDatePickerDelegate) {
+		self.init(nibName: "PersianDatePickerController", bundle: .PersianDatePicker)
+		
+		self.configuration = configuration
+		self.delegate = delegate
+		
+		self.manager = PersianDatePicker.Manager(selectionConfiguration: configuration.selection, delegate: delegate)
 	}
 	
-	@IBAction func action_Button_PreviousMonth() {
-		guard handler.canGoToPreviousMonth else { return }
-		handler.gotoPreviousMonth()
+	override func viewDidLoad() {
+        super.viewDidLoad()
+		setupViews()
+    }
+	
+	@IBAction func action_Buttons_Paging(_ sender: UIButton) {
+		let pagingAction: PersianDatePicker.Manager.PagingAction
+		
+		switch sender {
+		case button_PreviousYear	: pagingAction = .previous(.year)
+		case button_PreviousMonth	: pagingAction = .previous(.month)
+		case button_NextMonth		: pagingAction = .next(.month)
+		case button_NextYear		: pagingAction = .next(.year)
+		default						: return
+		}
+		
+		guard manager.canPerformPagingAction(pagingAction) else { return }
+		manager.performPagingAction(pagingAction)
 		setupViews_ForNewCalendarPage()
 	}
 	
 	@IBAction func action_Button_SelectAndDismiss() {
 		let _delegate = delegate
-		let _dates = handler.selectedDates_Array
+		let _dates = manager.sortedSelectedDates
 		dismiss(animated: true) {
-			_delegate?.persianDatePicker_DidSelectDates(_dates)
+			_delegate?.persianDatePicker(didSelectDates: _dates)
 		}
+	}
+	
+	@IBAction func action_Button_ChangeYearAndMonth() {
+		let changeYearAndMonthController = ChangeYearMonthController(dataSource: manager, delegate: self)
+		
+		let transitionDelegate = PersianDatePickerPresenter.TransitioningDelegate(customHeight: nil)
+		changeYearAndMonthController.transitioningDelegate = transitionDelegate
+		changeYearAndMonthController.modalPresentationStyle = .custom
+		changeYearAndMonthController.modalPresentationCapturesStatusBarAppearance = true
+		present(changeYearAndMonthController, animated: true, completion: nil)
 	}
 	
 }
 
 extension PersianDatePickerController: UIGestureRecognizerDelegate {
 	
-	public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+	func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
 		if	let touchedView = touch.view,
 			let gestureView = gestureRecognizer.view,
 			touchedView.isDescendant(of: gestureView),
@@ -75,30 +93,60 @@ extension PersianDatePickerController: UIGestureRecognizerDelegate {
 
 extension PersianDatePickerController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 	
-	public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-		return handler.currentPageDays.count
+	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+		return manager.numberOfCurrentPageItems
 	}
 	
-	public func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+		let day = manager.pageItem(at: indexPath.row)
 		let cell = collectionView_Days.dequeueReusableCell(withReuseIdentifier: "DayCell", for: indexPath) as! DayCell
-		cell.setup(with: handler.currentPageDays[indexPath.row])
+		cell.setup(with: day)
+		
+		if case .enableDate(_, let isSelected) = day, isSelected {
+			collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .init())
+		}
+		
 		return cell
 	}
 	
-	public func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		actionToggleSelectionForItem(at: indexPath.row)
 	}
 	
-	public func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+	func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
 		actionToggleSelectionForItem(at: indexPath.row)
 	}
 	
-	public func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+	func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 		let frame_CollectionView = collectionView.frame
 		let width: CGFloat = (frame_CollectionView.width - CGFloat(8)) / 7.0
 		let height: CGFloat = (frame_CollectionView.height - CGFloat(5)) / 6.0
 		let size = CGSize(width: width, height: height)
 		return size
+	}
+	
+	func collectionView(_ collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath) -> Bool {
+		let day = manager.pageItem(at: indexPath.row)
+		switch day {
+		case .empty,
+			 .disableDate:
+			return false
+		case .enableDate:
+			return true
+		}
+	}
+	
+	func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
+		return true
+	}
+	
+}
+
+extension PersianDatePickerController: ChangeYearMonthDelegate {
+	
+	func changeYearMonthController(didSelectYear year: Int, andMonth month: Int) {
+		manager.performPagingAction(.present(year: year, month: month))
+		setupViews_ForNewCalendarPage()
 	}
 	
 }
@@ -109,26 +157,31 @@ internal extension PersianDatePickerController {
 		setupViews_OtherViews()
 		setupViews_Label_TitleAndMessage()
 		setupViews_CollectionView_Days()
+		setupViews_BasedOnHandler()
 	}
 	
 	private func setupViews_OtherViews() {
+		let baseFont = configuration.ui.font
 		self.view.backgroundColor = .clear
 		view_ContentHolder.layer.cornerRadius = 12.0
 		
-		button_NextMonth.layer.cornerRadius = button_NextMonth.frame.height / 2.0
-		button_PreviousMonth.layer.cornerRadius = button_PreviousMonth.frame.height / 2.0
+		let pagingButtons: [UIView] = [button_PreviousYear, button_PreviousMonth, button_NextYear, button_NextMonth]
+		pagingButtons.forEach {
+			$0.layer.cornerRadius = 8
+		}
 		
 		let view_ButtonHolder = button_Select.superview!
 		view_ButtonHolder.layer.cornerRadius = 12.0
 		view_ButtonHolder.clipsToBounds = true
 		button_Select.isEnabled = false
-		button_Select.titleLabel?.font = delegate.persianDatePicker_BaseFont.withSize(18).boldVersion ?? UIFont.systemFont(ofSize: 18, weight: .bold)
+		button_Select.titleLabel?.font = baseFont.withSize(18).boldVersion ?? baseFont.withSize(18)
 		
-		label_YearAndMonth.font = delegate.persianDatePicker_BaseFont.withSize(14)
+		button_YearAndMonth.titleLabel?.font = baseFont.withSize(14)
+		button_YearAndMonth.layer.cornerRadius = 8
 		
 		stackView_WeekdayIdentifiers.arrangedSubviews
 			.compactMap { $0 as? UILabel }
-			.forEach { $0.font = delegate.persianDatePicker_BaseFont.withSize(10) }
+			.forEach { $0.font = baseFont.withSize(10) }
 		
 		let tap = UITapGestureRecognizer.init(target: self, action: #selector(self.actionDismiss))
 		tap.delegate = self
@@ -136,18 +189,22 @@ internal extension PersianDatePickerController {
 	}
 	
 	private func setupViews_Label_TitleAndMessage() {
-		let attributedText_Final = NSMutableAttributedString(string: "")
+		let baseFont = configuration.ui.font
 		
-		let title = delegate.persianDatePicker_Title + (delegate.persianDatePicker_Message == nil ? "" : "\n")
-		let attributedText_Title = NSAttributedString.Init(title,
-			font		: delegate.persianDatePicker_BaseFont.withSize(18).boldVersion ?? UIFont.systemFont(ofSize: 18, weight: .bold),
+		let attributedText_Final = NSMutableAttributedString()
+		
+		let title = configuration.texts.title + (configuration.texts.hasMessage ? "\n" : "")
+		let attributedText_Title = NSAttributedString.Init(
+			string		: title,
+			font		: baseFont.withSize(18).boldVersion ?? baseFont.withSize(18),
 			textColor	: .black
 		)
 		attributedText_Final.append(attributedText_Title)
 		
-		if let message = delegate.persianDatePicker_Message {
-			let attributedText_Message = NSAttributedString.Init(message,
-				font		: delegate.persianDatePicker_BaseFont.withSize(12.0),
+		if let message = configuration.texts.message {
+			let attributedText_Message = NSAttributedString.Init(
+				string		: message,
+				font		: baseFont.withSize(12.0),
 				textColor	: .darkGray
 			)
 			
@@ -158,46 +215,74 @@ internal extension PersianDatePickerController {
 	}
 	
 	private func setupViews_CollectionView_Days() {
-		let nibFile_DayCell = UINib(nibName: "DayCell", bundle: Bundle.PersianDatePicker)
+		let nibFile_DayCell = UINib(nibName: "DayCell", bundle: .PersianDatePicker)
 		collectionView_Days.register(nibFile_DayCell, forCellWithReuseIdentifier: "DayCell")
 		collectionView_Days.backgroundColor = .groupTableViewBackground
 		collectionView_Days.delegate = self
 		collectionView_Days.dataSource = self
 		collectionView_Days.semanticContentAttribute = .forceRightToLeft
-		collectionView_Days.allowsMultipleSelection = delegate!.persianDatePicker_CanSelectMultipleDates
+		collectionView_Days.allowsMultipleSelection = configuration.selection.canSelectMultipleDates
 	}
 	
-	private func setupViews_BasedOnHandler(isAnimated: Bool = false) {
-		if isAnimated {
-			UIView.transition(with: label_YearAndMonth, duration: 0.2, options: [.transitionFlipFromTop], animations: {
-				self.label_YearAndMonth.text = self.handler.currentYearAndMonth_String
-			}, completion: nil)
-		} else {
-			label_YearAndMonth.text = handler.currentYearAndMonth_String
+	private func setupViews_SelectButton() {
+		button_Select.isEnabled = !manager.selectedDatesIsEmpty
+		
+		if configuration.selection.canSelectMultipleDates {
+			let numberOfSelectedItems = manager.numberOfSelectedItems
+			let numberForamtter = NumberFormatter()
+			numberForamtter.locale = .Farsi
+			let string = numberForamtter.string(from: numberOfSelectedItems as NSNumber)!
+			UIView.performWithoutAnimation {
+				self.button_Select.setTitle("انتخاب \(string) مورد", for: .normal)
+				self.button_Select.layoutIfNeeded()
+			}
 		}
-		button_NextMonth.isEnabled = handler.canGoToNextMonth
-		button_PreviousMonth.isEnabled = handler.canGoToPreviousMonth
+	}
+	
+	private func setupViews_BasedOnHandler() {
+		button_YearAndMonth.setTitle(manager.currentPageTitle, for: .normal)
+		
+		let buttonsConfig: [(button: UIButton, isEnabled: Bool)] = [
+			(button_NextMonth		, manager.canPerformPagingAction(.next(.month))),
+			(button_NextYear		, manager.canPerformPagingAction(.next(.year))),
+			(button_PreviousMonth	, manager.canPerformPagingAction(.previous(.month))),
+			(button_PreviousYear	, manager.canPerformPagingAction(.previous(.year)))
+		]
+		
+		buttonsConfig.forEach {
+			$0.button.isEnabled = $0.isEnabled
+			$0.button.tintColor = $0.isEnabled ? self.view.tintColor : .lightGray
+		}
+		
+		if !manager.FastPaginationIsAvailable {
+			button_YearAndMonth.setTitleColor(.black, for: .disabled)
+			button_YearAndMonth.backgroundColor = .white
+			button_YearAndMonth.isEnabled = false
+		}
+		
+		setupViews_SelectButton()
 	}
 	
 	private func setupViews_ForNewCalendarPage() {
-		setupViews_BasedOnHandler(isAnimated: true)
-		collectionView_Days.reloadData()
-	}
-	private func setupHandler() {
-		self.handler = PersianDatePickerHandler(delegate: delegate)
 		setupViews_BasedOnHandler()
+		collectionView_Days.reloadData()
 	}
 	
 	private func actionToggleSelectionForItem(at index: Int) {
-		let day = handler.currentPageDays[index]
-		guard case .enableDate(_, _) = day else { return }
-		handler.toggleSelection(forDateAtIndex: index)
-		button_Select.isEnabled = !handler.selectedDates_Array.isEmpty
+		let day = manager.pageItem(at: index)
+		guard case .enableDate(_, let isSelected) = day else { return }
+		manager.toggleSelection(forDateAtIndex: index)
+		
+		if isSelected {
+			collectionView_Days.reloadItems(at: [.init(row: index, section: 0)])
+		}
+		
+		setupViews_SelectButton()
 	}
 	
 	@objc
 	private func actionDismiss() {
-		PersianDatePickerController.SharedDelegate = nil
 		dismiss(animated: true, completion: nil)
 	}
+	
 }
