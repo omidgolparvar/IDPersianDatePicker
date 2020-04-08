@@ -18,11 +18,15 @@
 		1A0089A722268E31008A8A2E /* Calendar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0089A622268E31008A8A2E /* Calendar.swift */; };
 		1A0089AA22268E87008A8A2E /* NSAttributedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0089A922268E87008A8A2E /* NSAttributedString.swift */; };
 		1A0089AC22268FF6008A8A2E /* Bundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0089AB22268FF6008A8A2E /* Bundle.swift */; };
-		1A0089D62226929C008A8A2E /* PersianDatePickerController+Presenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0089D52226929C008A8A2E /* PersianDatePickerController+Presenter.swift */; };
+		1A0089D62226929C008A8A2E /* PersianDatePicker+Presenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0089D52226929C008A8A2E /* PersianDatePicker+Presenter.swift */; };
 		1A0089D8222694CA008A8A2E /* PersianDatePickerPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A0089D7222694CA008A8A2E /* PersianDatePickerPresenter.swift */; };
+		1A5CB3FD243A7CA9000B973A /* PersianDatePicker+Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5CB3FC243A7CA9000B973A /* PersianDatePicker+Config.swift */; };
+		1A5CB3FF243A7D24000B973A /* PersianDatePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5CB3FE243A7D24000B973A /* PersianDatePicker.swift */; };
+		1A5CB401243D17AC000B973A /* ChangeYearMonthController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 1A5CB400243D17AC000B973A /* ChangeYearMonthController.xib */; };
+		1A5CB403243D1805000B973A /* ChangeYearMonthController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A5CB402243D1804000B973A /* ChangeYearMonthController.swift */; };
+		1A6CCB77243DC2350096C091 /* PersianDatePicker+Manager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A6CCB76243DC2350096C091 /* PersianDatePicker+Manager.swift */; };
 		1A72879F2226B7780034ECB3 /* UIFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A72879E2226B7780034ECB3 /* UIFont.swift */; };
 		1A7287A12226BC270034ECB3 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7287A02226BC270034ECB3 /* CustomButton.swift */; };
-		1A7287A32226C26E0034ECB3 /* PersianDatePickerHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7287A22226C26E0034ECB3 /* PersianDatePickerHandler.swift */; };
 		1A7287A62226E9D60034ECB3 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A7287A52226E9D60034ECB3 /* Date.swift */; };
 /* End PBXBuildFile section */
 
@@ -40,11 +44,15 @@
 		1A0089A622268E31008A8A2E /* Calendar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calendar.swift; sourceTree = "<group>"; };
 		1A0089A922268E87008A8A2E /* NSAttributedString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NSAttributedString.swift; sourceTree = "<group>"; };
 		1A0089AB22268FF6008A8A2E /* Bundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Bundle.swift; sourceTree = "<group>"; };
-		1A0089D52226929C008A8A2E /* PersianDatePickerController+Presenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PersianDatePickerController+Presenter.swift"; sourceTree = "<group>"; };
+		1A0089D52226929C008A8A2E /* PersianDatePicker+Presenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PersianDatePicker+Presenter.swift"; sourceTree = "<group>"; };
 		1A0089D7222694CA008A8A2E /* PersianDatePickerPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersianDatePickerPresenter.swift; sourceTree = "<group>"; };
+		1A5CB3FC243A7CA9000B973A /* PersianDatePicker+Config.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PersianDatePicker+Config.swift"; sourceTree = "<group>"; };
+		1A5CB3FE243A7D24000B973A /* PersianDatePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersianDatePicker.swift; sourceTree = "<group>"; };
+		1A5CB400243D17AC000B973A /* ChangeYearMonthController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ChangeYearMonthController.xib; sourceTree = "<group>"; };
+		1A5CB402243D1804000B973A /* ChangeYearMonthController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChangeYearMonthController.swift; sourceTree = "<group>"; };
+		1A6CCB76243DC2350096C091 /* PersianDatePicker+Manager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PersianDatePicker+Manager.swift"; sourceTree = "<group>"; };
 		1A72879E2226B7780034ECB3 /* UIFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIFont.swift; sourceTree = "<group>"; };
 		1A7287A02226BC270034ECB3 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
-		1A7287A22226C26E0034ECB3 /* PersianDatePickerHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersianDatePickerHandler.swift; sourceTree = "<group>"; };
 		1A7287A52226E9D60034ECB3 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -88,8 +96,10 @@
 		1A00899522267B8C008A8A2E /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				1A0089D52226929C008A8A2E /* PersianDatePickerController+Presenter.swift */,
-				1A7287A22226C26E0034ECB3 /* PersianDatePickerHandler.swift */,
+				1A5CB3FE243A7D24000B973A /* PersianDatePicker.swift */,
+				1A5CB3FC243A7CA9000B973A /* PersianDatePicker+Config.swift */,
+				1A0089D52226929C008A8A2E /* PersianDatePicker+Presenter.swift */,
+				1A6CCB76243DC2350096C091 /* PersianDatePicker+Manager.swift */,
 				1A0089A022268842008A8A2E /* PersianDatePickerDelegate.swift */,
 				1A0089D7222694CA008A8A2E /* PersianDatePickerPresenter.swift */,
 				1A00899E2226824D008A8A2E /* Assets.xcassets */,
@@ -116,7 +126,9 @@
 			isa = PBXGroup;
 			children = (
 				1A00899322267AEE008A8A2E /* PersianDatePickerController.swift */,
+				1A5CB402243D1804000B973A /* ChangeYearMonthController.swift */,
 				1A00899C22267C17008A8A2E /* PersianDatePickerController.xib */,
+				1A5CB400243D17AC000B973A /* ChangeYearMonthController.xib */,
 				1A00899622267BBF008A8A2E /* DayCell.swift */,
 				1A00899722267BBF008A8A2E /* DayCell.xib */,
 				1A7287A02226BC270034ECB3 /* CustomButton.swift */,
@@ -196,6 +208,7 @@
 				1A00899D22267C17008A8A2E /* PersianDatePickerController.xib in Resources */,
 				1A00899F2226824D008A8A2E /* Assets.xcassets in Resources */,
 				1A00899922267BBF008A8A2E /* DayCell.xib in Resources */,
+				1A5CB401243D17AC000B973A /* ChangeYearMonthController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -208,16 +221,19 @@
 			files = (
 				1A0089A122268842008A8A2E /* PersianDatePickerDelegate.swift in Sources */,
 				1A0089AC22268FF6008A8A2E /* Bundle.swift in Sources */,
+				1A5CB3FF243A7D24000B973A /* PersianDatePicker.swift in Sources */,
 				1A0089AA22268E87008A8A2E /* NSAttributedString.swift in Sources */,
-				1A0089D62226929C008A8A2E /* PersianDatePickerController+Presenter.swift in Sources */,
+				1A0089D62226929C008A8A2E /* PersianDatePicker+Presenter.swift in Sources */,
 				1A0089D8222694CA008A8A2E /* PersianDatePickerPresenter.swift in Sources */,
-				1A7287A32226C26E0034ECB3 /* PersianDatePickerHandler.swift in Sources */,
 				1A0089A722268E31008A8A2E /* Calendar.swift in Sources */,
 				1A0089A522268E16008A8A2E /* Locale.swift in Sources */,
 				1A7287A12226BC270034ECB3 /* CustomButton.swift in Sources */,
 				1A00899822267BBF008A8A2E /* DayCell.swift in Sources */,
+				1A5CB403243D1805000B973A /* ChangeYearMonthController.swift in Sources */,
+				1A6CCB77243DC2350096C091 /* PersianDatePicker+Manager.swift in Sources */,
 				1A72879F2226B7780034ECB3 /* UIFont.swift in Sources */,
 				1A7287A62226E9D60034ECB3 /* Date.swift in Sources */,
+				1A5CB3FD243A7CA9000B973A /* PersianDatePicker+Config.swift in Sources */,
 				1A00899422267AEE008A8A2E /* PersianDatePickerController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
