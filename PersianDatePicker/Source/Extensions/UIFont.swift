@@ -10,7 +10,7 @@ import Foundation
 
 internal extension UIFont {
 	
-	internal var boldVersion: UIFont? {
+	var boldVersion: UIFont? {
 		guard let descriptorWithTraits = fontDescriptor.withSymbolicTraits(.traitBold) else { return nil }
 		return UIFont(descriptor: descriptorWithTraits, size: self.pointSize)
 	}

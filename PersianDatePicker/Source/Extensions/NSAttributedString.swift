@@ -10,10 +10,16 @@ import Foundation
 
 internal extension NSAttributedString {
 	
-	internal static func Init(_ text: String, font: UIFont, textColor: UIColor, textAlignment: NSTextAlignment = .center) -> NSAttributedString {
+	static func Init(
+		string			: String,
+		font			: UIFont,
+		textColor		: UIColor,
+		textAlignment	: NSTextAlignment = .center) -> NSAttributedString {
+		
 		let paragraphStyle = NSMutableParagraphStyle()
 		paragraphStyle.alignment = textAlignment
-		return NSAttributedString(string: text, attributes: [
+		
+		return NSAttributedString(string: string, attributes: [
 			.font				: font,
 			.foregroundColor	: textColor,
 			.paragraphStyle		: paragraphStyle

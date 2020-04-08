@@ -10,7 +10,7 @@ import Foundation
 
 internal extension Locale {
 	
-	internal static var Farsi: Locale {
+	static var Farsi: Locale {
 		return Locale(identifier: "fa-ir")
 	}
 	

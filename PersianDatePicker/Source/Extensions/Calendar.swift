@@ -10,7 +10,7 @@ import Foundation
 
 internal extension Calendar {
 	
-	internal static var Persian: Calendar {
+	static var Persian: Calendar {
 		return Calendar(identifier: .persian)
 	}
 	

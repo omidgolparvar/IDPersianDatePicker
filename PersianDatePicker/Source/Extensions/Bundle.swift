@@ -10,7 +10,7 @@ import Foundation
 
 internal extension Bundle {
 	
-	internal static var PersianDatePicker: Bundle {
+	static var PersianDatePicker: Bundle {
 		return Bundle(for: PersianDatePickerController.self)
 	}
 	

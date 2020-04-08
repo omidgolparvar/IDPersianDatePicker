@@ -10,18 +10,18 @@ import Foundation
 
 internal extension Date {
 	
-	internal static var Now: Date {
+	static var Now: Date {
 		return Date()
 	}
 	
-	internal var startOfCurrentMonth: Date {
+	var startOfCurrentMonth: Date {
 		let calendar = Calendar.Persian
 		let components_StartOfMonth = calendar.dateComponents([.year, .month], from: self)
 		let date_StartOfMonth = calendar.date(from: components_StartOfMonth)!
 		return date_StartOfMonth
 	}
 	
-	internal var endOfCurrentMonth: Date {
+	var endOfCurrentMonth: Date {
 		let calendar = Calendar.Persian
 		let components_StartOfMonth = calendar.dateComponents([.year, .month], from: self)
 		let date_StartOfMonth = calendar.date(from: components_StartOfMonth)!
@@ -32,7 +32,7 @@ internal extension Date {
 		return data
 	}
 	
-	internal var startOfNextMonth: Date {
+	var startOfNextMonth: Date {
 		let calendar = Calendar.Persian
 		let components_StartOfMonth = calendar.dateComponents([.year, .month], from: self)
 		let date_StartOfMonth = calendar.date(from: components_StartOfMonth)!
@@ -42,7 +42,7 @@ internal extension Date {
 		return data
 	}
 	
-	internal var startOfPreviousMonth: Date {
+	var startOfPreviousMonth: Date {
 		let calendar = Calendar.Persian
 		let components_StartOfMonth = calendar.dateComponents([.year, .month], from: self)
 		let date_StartOfMonth = calendar.date(from: components_StartOfMonth)!
