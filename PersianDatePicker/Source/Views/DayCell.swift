@@ -10,6 +10,8 @@ import UIKit
 
 class DayCell: UICollectionViewCell {
 	
+	private typealias UIConfiguration = PersianDatePicker.Configuration.UIConfiguration
+	
 	private static var CellDateFormatter: DateFormatter = {
 		var dateFormatter = DateFormatter()
 		dateFormatter.calendar = .Persian
@@ -23,8 +25,7 @@ class DayCell: UICollectionViewCell {
 	
     override func awakeFromNib() {
         super.awakeFromNib()
-		let sharedDelegate = PersianDatePickerController.SharedDelegate!
-		label_DateNumber.font = sharedDelegate.persianDatePicker_BaseFont.withSize(17)
+		label_DateNumber.font = UIConfiguration.shared.font.withSize(17)
     }
 	
 	override var isHighlighted: Bool {
@@ -33,15 +34,12 @@ class DayCell: UICollectionViewCell {
 		}
 		
 		set {
-			UIView.animate(withDuration: 0.2) { [weak self] in
-				let isSelected = self?.isSelected ?? false
-				if newValue {
-					self?.view_ContentHolder.backgroundColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
-				} else if isSelected {
-					self?.view_ContentHolder.backgroundColor = PersianDatePickerController.SharedDelegate!.persianDatePicker_SelectedDateColors.background
-				} else {
-					self?.view_ContentHolder.backgroundColor = .white
-				}
+			if newValue {
+				self.view_ContentHolder.backgroundColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
+			} else if self.isSelected {
+				self.view_ContentHolder.backgroundColor = UIConfiguration.shared.selectedDayBackgroundColor
+			} else {
+				self.view_ContentHolder.backgroundColor = .white
 			}
 			
 			super.isHighlighted = newValue
@@ -54,37 +52,38 @@ class DayCell: UICollectionViewCell {
 		}
 		
 		set {
-			self.view_ContentHolder.backgroundColor = newValue ?
-				PersianDatePickerController.SharedDelegate!.persianDatePicker_SelectedDateColors.background :
-				.white
-			self.label_DateNumber.textColor = newValue ?
-				PersianDatePickerController.SharedDelegate!.persianDatePicker_SelectedDateColors.text :
-				.black
+			let uiConfiguration = UIConfiguration.shared
+			
+			self.view_ContentHolder.backgroundColor = newValue
+				? uiConfiguration.selectedDayBackgroundColor
+				: .white
+			
+			self.label_DateNumber.textColor = newValue
+				? uiConfiguration.selectedDayTextColor
+				: .black
 			
 			super.isSelected = newValue
 		}
 	}
 	
-	func setup(with day: PersianDatePickerHandler.PresentingDay) {
+	func setup(with day: PersianDatePicker.Manager.PageItem) {
 		switch day {
-		case .none:
-			self.isUserInteractionEnabled = false
+		case .empty:
 			view_ContentHolder.backgroundColor = .clear
 			label_DateNumber.isHidden = true
 		case .disableDate(let date):
-			self.isUserInteractionEnabled = false
 			view_ContentHolder.backgroundColor = .white
 			label_DateNumber.text = DayCell.CellDateFormatter.string(from: date)
 			label_DateNumber.textColor = .lightGray
 			label_DateNumber.isHidden = false
 		case .enableDate(let date, let isSelected):
-			let sharedDelegate = PersianDatePickerController.SharedDelegate!
-			self.isUserInteractionEnabled = true
-			view_ContentHolder.backgroundColor = isSelected ? sharedDelegate.persianDatePicker_SelectedDateColors.background : .white
+			let uiConfiguration = UIConfiguration.shared
+			view_ContentHolder.backgroundColor = isSelected ? uiConfiguration.selectedDayBackgroundColor : .white
 			label_DateNumber.text = DayCell.CellDateFormatter.string(from: date)
-			label_DateNumber.textColor = isSelected ? sharedDelegate.persianDatePicker_SelectedDateColors.text : .black
+			label_DateNumber.textColor = isSelected ? uiConfiguration.selectedDayTextColor : .black
 			label_DateNumber.isHidden = false
 		}
 	}
 	
 }
+
