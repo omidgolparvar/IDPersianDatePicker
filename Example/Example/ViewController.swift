@@ -39,6 +39,8 @@ class ViewController: UIViewController {
 		config.ui.font = UIFont(name: "Vazir", size: 12)!
 		config.texts.title = "انتخاب نمایید"
 		config.texts.message = "تاریخ(های) مورد نظر خود را انتخاب کنین و بعدش دکمه تایید را بزنین"
+        // default value is "تغییر سال یا ماه"
+        config.texts.changeYearMonthTitle = "تغییر سال یا ماه"
 		config.selection.canSelectMultipleDates = true
 		config.selection.preselectedDates = preselectedDates
 		
@@ -48,7 +50,7 @@ class ViewController: UIViewController {
 			delegate			: self,
 			completion			: nil
 		)
-		PersianDatePicker.Present(sourceController: <#T##UIViewController#>, configuration: <#T##PersianDatePicker.Configuration#>, delegate: <#T##PersianDatePickerDelegate#>, completion: <#T##(() -> Void)?##(() -> Void)?##() -> Void#>)
+		PersianDatePicker.Present(sourceController: self, configuration: config, delegate: self, completion: nil)
 	}
 	
 }
