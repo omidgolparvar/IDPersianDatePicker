@@ -20,6 +20,8 @@ class ChangeYearMonthController: UIViewController {
 	@IBOutlet weak var button_Select				: UIButton!
 	@IBOutlet weak var pickerView_Main				: UIPickerView!
 	
+    private var configuration    : PersianDatePicker.Configuration!
+
 	private let numberFormatter	: NumberFormatter = {
 		let formatter = NumberFormatter()
 		formatter.locale = .Farsi
@@ -41,7 +43,7 @@ class ChangeYearMonthController: UIViewController {
 	private var selectedYear	: Int	= -1
 	private var selectedMonth	: Int	= -1
 	
-	convenience init(dataSource: PersianDatePickerFastPaginatorDataSource, delegate: ChangeYearMonthDelegate) {
+	convenience init(dataSource: PersianDatePickerFastPaginatorDataSource, delegate: ChangeYearMonthDelegate, configuration: PersianDatePicker.Configuration) {
 		self.init(nibName: "ChangeYearMonthController", bundle: .PersianDatePicker)
 		
 		self.delegate	= delegate
@@ -52,6 +54,8 @@ class ChangeYearMonthController: UIViewController {
 		
 		self.availableMonth	= dataSource.fastPaginatorAvailableMonths(for: selectedYear)
 		self.selectedMonth	= availableMonth.first!
+        
+        self.configuration = configuration
 	}
 	
 	override func viewDidLoad() {
@@ -141,13 +145,15 @@ extension ChangeYearMonthController: UIPickerViewDataSource, UIPickerViewDelegat
 internal extension ChangeYearMonthController {
 	
 	private func setupViews() {
-		let baseFont = PersianDatePicker.Configuration.UIConfiguration.shared.font
-		
+        let baseFont = configuration.ui.font
+        let bottomSheetTitle = configuration.texts.changeYearMonthTitle
+        
 		self.view.backgroundColor = .clear
 		view_ContentHolder.layer.cornerRadius = 12.0
 		
 		label_TitleAndMessage.font = (baseFont.boldVersion ?? baseFont).withSize(16)
-		
+        label_TitleAndMessage.text = bottomSheetTitle
+        
 		let view_ButtonHolder = button_Select.superview!
 		view_ButtonHolder.layer.cornerRadius = 12.0
 		view_ButtonHolder.clipsToBounds = true
