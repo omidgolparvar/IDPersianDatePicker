@@ -35,11 +35,11 @@ class DayCell: UICollectionViewCell {
 		
 		set {
 			if newValue {
-				self.view_ContentHolder.backgroundColor = #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1)
+				self.view_ContentHolder.backgroundColor = UIColor.SystemColors.secondarySystemFill
 			} else if self.isSelected {
 				self.view_ContentHolder.backgroundColor = UIConfiguration.shared.selectedDayBackgroundColor
 			} else {
-				self.view_ContentHolder.backgroundColor = .white
+                self.view_ContentHolder.backgroundColor = UIColor.SystemColors.systemBackground
 			}
 			
 			super.isHighlighted = newValue
@@ -56,11 +56,11 @@ class DayCell: UICollectionViewCell {
 			
 			self.view_ContentHolder.backgroundColor = newValue
 				? uiConfiguration.selectedDayBackgroundColor
-				: .white
+                : UIColor.SystemColors.systemBackground
 			
 			self.label_DateNumber.textColor = newValue
 				? uiConfiguration.selectedDayTextColor
-				: .black
+                : UIColor.SystemColors.label
 			
 			super.isSelected = newValue
 		}
@@ -72,15 +72,15 @@ class DayCell: UICollectionViewCell {
 			view_ContentHolder.backgroundColor = .clear
 			label_DateNumber.isHidden = true
 		case .disableDate(let date):
-			view_ContentHolder.backgroundColor = .white
+            view_ContentHolder.backgroundColor = UIColor.SystemColors.systemBackground
 			label_DateNumber.text = DayCell.CellDateFormatter.string(from: date)
-			label_DateNumber.textColor = .lightGray
+            label_DateNumber.textColor = UIColor.SystemColors.tertiaryLabel
 			label_DateNumber.isHidden = false
 		case .enableDate(let date, let isSelected):
 			let uiConfiguration = UIConfiguration.shared
-			view_ContentHolder.backgroundColor = isSelected ? uiConfiguration.selectedDayBackgroundColor : .white
+			view_ContentHolder.backgroundColor = isSelected ? uiConfiguration.selectedDayBackgroundColor : UIColor.SystemColors.systemBackground
 			label_DateNumber.text = DayCell.CellDateFormatter.string(from: date)
-			label_DateNumber.textColor = isSelected ? uiConfiguration.selectedDayTextColor : .black
+            label_DateNumber.textColor = isSelected ? uiConfiguration.selectedDayTextColor : UIColor.SystemColors.label
 			label_DateNumber.isHidden = false
 		}
 	}
