@@ -17,11 +17,11 @@ internal class CustomButton: UIButton {
 		
 		set {
 			if newValue {
-				backgroundColor = newValue ? #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1) : UIColor.white
+                backgroundColor = newValue ? UIColor.SystemColors.secondarySystemBackground : UIColor.SystemColors.systemBackground
 				titleLabel?.alpha = newValue ? 0.3 : 1.0
 			} else {
 				UIView.animate(withDuration: 0.2) { [weak self] in
-					self?.backgroundColor = newValue ? #colorLiteral(red: 0.921431005, green: 0.9214526415, blue: 0.9214410186, alpha: 1) : UIColor.white
+                    self?.backgroundColor = newValue ? UIColor.SystemColors.secondarySystemBackground : UIColor.SystemColors.systemBackground
 					self?.titleLabel?.alpha = newValue ? 0.3 : 1.0
 				}
 			}

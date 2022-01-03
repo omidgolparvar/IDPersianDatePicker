@@ -258,7 +258,7 @@
                     <subviews>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pjY-XG-81C" customClass="CustomButton" customModule="PersianDatePicker" customModuleProvider="target">
                             <rect key="frame" x="0.0" y="0.0" width="355" height="56"/>
-                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="56" id="KPj-R3-KqZ"/>
                             </constraints>
