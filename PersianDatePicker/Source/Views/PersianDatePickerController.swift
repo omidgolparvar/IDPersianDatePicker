@@ -197,7 +197,7 @@ internal extension PersianDatePickerController {
 		let attributedText_Title = NSAttributedString.Init(
 			string		: title,
 			font		: baseFont.withSize(18).boldVersion ?? baseFont.withSize(18),
-			textColor	: .black
+            textColor	: .SystemColors.label
 		)
 		attributedText_Final.append(attributedText_Title)
 		
@@ -205,7 +205,7 @@ internal extension PersianDatePickerController {
 			let attributedText_Message = NSAttributedString.Init(
 				string		: message,
 				font		: baseFont.withSize(12.0),
-				textColor	: .darkGray
+                textColor	: .SystemColors.secondaryLabel
 			)
 			
 			attributedText_Final.append(attributedText_Message)
