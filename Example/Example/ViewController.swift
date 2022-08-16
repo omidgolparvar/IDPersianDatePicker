@@ -48,7 +48,9 @@ class ViewController: UIViewController {
 			delegate			: self,
 			completion			: nil
 		)
-		PersianDatePicker.Present(sourceController: <#T##UIViewController#>, configuration: <#T##PersianDatePicker.Configuration#>, delegate: <#T##PersianDatePickerDelegate#>, completion: <#T##(() -> Void)?##(() -> Void)?##() -> Void#>)
+        PersianDatePicker.Present(sourceController: self, configuration: config, delegate: self) {
+            print("(SELECTION DONE)")
+        }
 	}
 	
 }

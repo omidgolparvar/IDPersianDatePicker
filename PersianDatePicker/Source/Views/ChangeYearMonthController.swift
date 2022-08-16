@@ -129,7 +129,7 @@ extension ChangeYearMonthController: UIPickerViewDataSource, UIPickerViewDelegat
 		let label = view as? UILabel ?? UILabel()
 		let baseFont = PersianDatePicker.Configuration.UIConfiguration.shared.font
 		label.font = (baseFont.boldVersion ?? baseFont).withSize(18)
-		label.textColor = .black
+        label.textColor = UIColor.SystemColors.label
 		label.text = text
 		label.textAlignment = .center
 		
@@ -157,7 +157,7 @@ internal extension ChangeYearMonthController {
 		tap.delegate = self
 		self.view.addGestureRecognizer(tap)
 		
-		pickerView_Main.backgroundColor = .white
+        pickerView_Main.backgroundColor = UIColor.SystemColors.systemBackground
 		pickerView_Main.delegate = self
 		pickerView_Main.dataSource = self
 	}

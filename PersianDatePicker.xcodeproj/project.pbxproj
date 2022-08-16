@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		049794562780EC420024A7C7 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049794552780EC420024A7C7 /* UIColor.swift */; };
 		1A00898D22267AAE008A8A2E /* PersianDatePicker.h in Headers */ = {isa = PBXBuildFile; fileRef = 1A00898B22267AAE008A8A2E /* PersianDatePicker.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1A00899422267AEE008A8A2E /* PersianDatePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00899322267AEE008A8A2E /* PersianDatePickerController.swift */; };
 		1A00899822267BBF008A8A2E /* DayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A00899622267BBF008A8A2E /* DayCell.swift */; };
@@ -31,6 +32,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		049794552780EC420024A7C7 /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		1A00898822267AAE008A8A2E /* PersianDatePicker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PersianDatePicker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A00898B22267AAE008A8A2E /* PersianDatePicker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PersianDatePicker.h; sourceTree = "<group>"; };
 		1A00898C22267AAE008A8A2E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 				1A0089AB22268FF6008A8A2E /* Bundle.swift */,
 				1A72879E2226B7780034ECB3 /* UIFont.swift */,
 				1A7287A52226E9D60034ECB3 /* Date.swift */,
+				049794552780EC420024A7C7 /* UIColor.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -225,6 +228,7 @@
 				1A0089AA22268E87008A8A2E /* NSAttributedString.swift in Sources */,
 				1A0089D62226929C008A8A2E /* PersianDatePicker+Presenter.swift in Sources */,
 				1A0089D8222694CA008A8A2E /* PersianDatePickerPresenter.swift in Sources */,
+				049794562780EC420024A7C7 /* UIColor.swift in Sources */,
 				1A0089A722268E31008A8A2E /* Calendar.swift in Sources */,
 				1A0089A522268E16008A8A2E /* Locale.swift in Sources */,
 				1A7287A12226BC270034ECB3 /* CustomButton.swift in Sources */,
