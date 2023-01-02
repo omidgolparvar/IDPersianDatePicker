@@ -33,7 +33,8 @@ public extension PersianDatePicker.Configuration {
 	struct TextsConfiguration {
 		public var title	: String	= "تاریخ مورد نظر خود را انتخاب نمایید"
 		public var message	: String?	= nil
-		
+        public var changeYearMonthTitle: String = "تغییر سال یا ماه"
+        
 		var hasMessage: Bool {
 			return message != nil
 		}

@@ -66,7 +66,7 @@ class PersianDatePickerController: UIViewController {
 	}
 	
 	@IBAction func action_Button_ChangeYearAndMonth() {
-		let changeYearAndMonthController = ChangeYearMonthController(dataSource: manager, delegate: self)
+        let changeYearAndMonthController = ChangeYearMonthController(dataSource: manager, delegate: self, configuration: configuration)
 		
 		let transitionDelegate = PersianDatePickerPresenter.TransitioningDelegate(customHeight: nil)
 		changeYearAndMonthController.transitioningDelegate = transitionDelegate
